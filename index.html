@@ -30,15 +30,38 @@
             maxPredictions = model.getTotalClasses();
 
             // Configuración de la cámara (webcam)
-            const flip = facingMode === 'user';  // Si quieres que la cámara esté invertida (espejada)
-            webcam = new tmImage.Webcam(200, 200, flip); // Se define el tamaño de la imagen de la cámara
-            try {
-                await webcam.setup({ facingMode: facingMode }); // Solicita acceso a la cámara
-                await webcam.play();
-                window.requestAnimationFrame(loop);
+            const constraints = {
+                video: {
+                    facingMode: facingMode
+                }
+            };
 
-                // Agregar el canvas de la cámara al DOM
-                document.getElementById("webcam-container").appendChild(webcam.canvas);
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                video.width = 200;
+                video.height = 200;
+                document.getElementById("webcam-container").appendChild(video);
+
+                // Crear un canvas para capturar los frames del video
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                document.getElementById("webcam-container").appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+
+                // Función para actualizar la cámara y realizar la predicción
+                async function loop() {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    await predict(canvas);
+                    requestAnimationFrame(loop);
+                }
+
+                // Iniciar el bucle de predicción
+                loop();
+
                 labelContainer = document.getElementById("label-container");
                 for (let i = 0; i < maxPredictions; i++) { // Agregar etiquetas para las predicciones
                     labelContainer.appendChild(document.createElement("div"));
@@ -49,17 +72,10 @@
             }
         }
 
-        // Función para actualizar la cámara y realizar la predicción
-        async function loop() {
-            webcam.update(); // Actualiza el frame de la cámara
-            await predict(); // Realiza la predicción
-            window.requestAnimationFrame(loop);
-        }
-
         // Función para hacer la predicción con el modelo
-        async function predict() {
+        async function predict(canvas) {
             // Realiza la predicción pasando el canvas de la cámara al modelo
-            const prediction = await model.predict(webcam.canvas);
+            const prediction = await model.predict(canvas);
             for (let i = 0; i < maxPredictions; i++) {
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2); // Muestra la clase y su probabilidad
