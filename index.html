@@ -9,7 +9,8 @@
 </head>
 <body>
     <h1>Clasificador de Objetos en Vivo</h1>
-    <button type="button" onclick="init()">Iniciar Cámara</button>
+    <button type="button" onclick="init('user')">Iniciar Cámara Frontal</button>
+    <button type="button" onclick="init('environment')">Iniciar Cámara Trasera</button>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
 
@@ -20,7 +21,7 @@
         let model, webcam, labelContainer, maxPredictions;
 
         // Función para cargar el modelo y configurar la cámara
-        async function init() {
+        async function init(facingMode) {
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
