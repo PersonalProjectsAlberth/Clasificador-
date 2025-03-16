@@ -29,9 +29,9 @@
             maxPredictions = model.getTotalClasses();
 
             // Configuración de la cámara (webcam)
-            const flip = true; // Si quieres que la cámara esté invertida (espejada)
+            const flip = facingMode === 'user';  // Si quieres que la cámara esté invertida (espejada)
             webcam = new tmImage.Webcam(200, 200, flip); // Se define el tamaño de la imagen de la cámara
-            await webcam.setup(); // Solicita acceso a la cámara
+            await webcam.setup({ facingMode: facingMode }); // Solicita acceso a la cámara
             await webcam.play();
             window.requestAnimationFrame(loop);
 
