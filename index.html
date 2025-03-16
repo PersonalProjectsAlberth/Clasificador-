@@ -32,15 +32,20 @@
             // Configuración de la cámara (webcam)
             const flip = facingMode === 'user';  // Si quieres que la cámara esté invertida (espejada)
             webcam = new tmImage.Webcam(200, 200, flip); // Se define el tamaño de la imagen de la cámara
-            await webcam.setup({ facingMode: facingMode }); // Solicita acceso a la cámara
-            await webcam.play();
-            window.requestAnimationFrame(loop);
+            try {
+                await webcam.setup({ facingMode: facingMode }); // Solicita acceso a la cámara
+                await webcam.play();
+                window.requestAnimationFrame(loop);
 
-            // Agregar el canvas de la cámara al DOM
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
-            labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // Agregar etiquetas para las predicciones
-                labelContainer.appendChild(document.createElement("div"));
+                // Agregar el canvas de la cámara al DOM
+                document.getElementById("webcam-container").appendChild(webcam.canvas);
+                labelContainer = document.getElementById("label-container");
+                for (let i = 0; i < maxPredictions; i++) { // Agregar etiquetas para las predicciones
+                    labelContainer.appendChild(document.createElement("div"));
+                }
+            } catch (err) {
+                console.error("Error al acceder a la cámara: ", err);
+                alert("No se pudo acceder a la cámara. Por favor, verifica los permisos.");
             }
         }
 
