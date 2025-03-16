@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador en Vivo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+    <h1>Clasificador de Objetos en Vivo</h1>
+    <button type="button" onclick="init()">Iniciar Cámara</button>
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+
+    <script type="text/javascript">
+        // URL donde has subido los archivos del modelo
+        const URL = "./my_model/"; // Asegúrate de que esta URL apunte a la ubicación correcta
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        // Función para cargar el modelo y configurar la cámara
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            // Cargar el modelo y los metadatos
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            // Configuración de la cámara (webcam)
+            const flip = true; // Si quieres que la cámara esté invertida (espejada)
+            webcam = new tmImage.Webcam(200, 200, flip); // Se define el tamaño de la imagen de la cámara
+            await webcam.setup(); // Solicita acceso a la cámara
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            // Agregar el canvas de la cámara al DOM
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // Agregar etiquetas para las predicciones
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+
+        // Función para actualizar la cámara y realizar la predicción
+        async function loop() {
+            webcam.update(); // Actualiza el frame de la cámara
+            await predict(); // Realiza la predicción
+            window.requestAnimationFrame(loop);
+        }
+
+        // Función para hacer la predicción con el modelo
+        async function predict() {
+            // Realiza la predicción pasando el canvas de la cámara al modelo
+            const prediction = await model.predict(webcam.canvas);
+            for (let i = 0; i < maxPredictions; i++) {
+                const classPrediction =
+                    prediction[i].className + ": " + prediction[i].probability.toFixed(2); // Muestra la clase y su probabilidad
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+            }
+        }
+    </script>
+</body>
+</html>
