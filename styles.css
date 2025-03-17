@@ -22,3 +22,10 @@ button {
 #label-container {
     margin-top: 20px;
 }
+
+#images-container img {
+    width: 30%;
+    margin: 10px;
+    border: 2px solid #000;
+    border-radius: 5px;
+}
