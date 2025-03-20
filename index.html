@@ -11,37 +11,18 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Clasificador Caras de un Dado</h1>
-    </header>
-    
-    <main>
-        <section>
-            <h2>Iniciar Cámara</h2>
-            <button type="button" onclick="init('user')" aria-label="Iniciar cámara frontal para clasificar las caras del dado.">Iniciar Cámara Frontal</button>
-            <button type="button" onclick="init('environment')" aria-label="Iniciar cámara trasera para clasificar las caras del dado.">Iniciar Cámara Trasera</button>
-        </section>
-        <section id="webcam-container">
-            <!-- Aquí se mostrará el video o la imagen de la cámara -->
-        </section>
-        <section id="label-container">
-            <!-- Aquí se mostrarán las etiquetas de clasificación -->
-        </section>
-        <section id="images-container">
-            <h3>Caras del Dado</h3>
-            <div class="image-container">
-                <img src="images/1.png" alt="Cara del dado con el número 1" width="150">
-                <img src="images/2.png" alt="Cara del dado con el número 2" width="150">
-                <img src="images/3.png" alt="Cara del dado con el número 3" width="150">
-                <img src="images/4.png" alt="Cara del dado con el número 4" width="150">
-                <img src="images/5.png" alt="Cara del dado con el número 5" width="150">
-                <img src="images/6.png" alt="Cara del dado con el número 6" width="150">
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 TF</p>
-    </footer>
+    <h1>Clasificador Caras de un dado</h1>
+    <button type="button" onclick="init('user')">Iniciar Cámara Frontal</button>
+    <button type="button" onclick="init('environment')">Iniciar Cámara Trasera</button>
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+    <div id="images-container">
+        <img src="images/1.png" alt="Imagen 1" width="150">
+        <img src="images/2.png" alt="Imagen 2" width="150">
+        <img src="images/3.png" alt="Imagen 3" width="150">
+        <img src="images/4.png" alt="Imagen 4" width="150">
+        <img src="images/5.png" alt="Imagen 5" width="150">
+        <img src="images/6.png" alt="Imagen 6" width="150">
+    </div>
 </body>
 </html>
