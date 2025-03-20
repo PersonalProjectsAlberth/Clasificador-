@@ -16,8 +16,11 @@
     </header>
     
     <main>
-        <button type="button" onclick="init('user')">Iniciar Cámara Frontal</button>
-        <button type="button" onclick="init('environment')">Iniciar Cámara Trasera</button>
+        <section>
+            <h2>Iniciar Cámara</h2>
+            <button type="button" onclick="init('user')" aria-label="Iniciar cámara frontal para clasificar las caras del dado.">Iniciar Cámara Frontal</button>
+            <button type="button" onclick="init('environment')" aria-label="Iniciar cámara trasera para clasificar las caras del dado.">Iniciar Cámara Trasera</button>
+        </section>
         <div id="webcam-container"></div>
         <div id="label-container"></div>
             <div id="images-container">
