@@ -17,10 +17,14 @@
         <h1>Clasificador Caras de un Dado</h1>
     </header>
     
-    <button type="button" onclick="init('user')">Iniciar Cámara Frontal</button>
-    <button type="button" onclick="init('environment')">Iniciar Cámara Trasera</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
+    <section id="camera-controls">
+        <button type="button" onclick="init('user')" aria-label="Iniciar cámara frontal">Iniciar Cámara Frontal</button>
+        <button type="button" onclick="init('environment')" aria-label="Iniciar cámara trasera">Iniciar Cámara Trasera</button>
+    </section>
+    
+    <section id="webcam-container"></section>
+    <section id="label-container"></section>
+    
     <div id="images-container">
         <img src="images/1.png" alt="Imagen 1" width="150">
         <img src="images/2.png" alt="Imagen 2" width="150">
