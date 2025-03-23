@@ -25,6 +25,12 @@
     <section id="webcam-container"></section>
     <section id="label-container"></section>
     
+    <!-- Botones para guardar y cargar fotos -->
+    <section id="photo-controls">
+        <button type="button" onclick="savePhoto(document.querySelector('canvas'))">Guardar Foto</button>
+        <button type="button" onclick="loadPhoto()">Cargar Foto Guardada</button>
+    </section>
+    
     <section id="images-container">
         <figure>
             <img src="images/1.png" alt="Cara del dado con un punto" width="150">
