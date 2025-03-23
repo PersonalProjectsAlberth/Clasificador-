@@ -73,13 +73,35 @@ function savePhoto(canvas) {
     alert("Foto guardada en Local Storage");
 }
 
-// Función para cargar la foto guardada desde Local Storage
+// Función para cargar la foto guardada desde Local Storage y realizar predicción
 function loadPhoto() {
     const savedPhoto = localStorage.getItem("savedPhoto");
     if (savedPhoto) {
         const img = document.createElement("img");
         img.src = savedPhoto;
         img.style.marginTop = "20px";
+        img.onload = async () => {
+            // Crear un canvas temporal para procesar la imagen cargada
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Realizar predicción con el modelo
+            const prediction = await model.predict(canvas);
+
+            // Mostrar los resultados en el contenedor de resultados
+            const resultContainer = document.getElementById("result-container");
+            resultContainer.innerHTML = ""; // Limpiar resultados previos
+            prediction.forEach(pred => {
+                const resultElement = document.createElement("div");
+                resultElement.textContent = `${pred.className}: ${pred.probability.toFixed(2)}`;
+                resultContainer.appendChild(resultElement);
+            });
+        };
+
+        // Agregar la imagen cargada al DOM (opcional)
         document.body.appendChild(img);
     } else {
         alert("No hay fotos guardadas");
