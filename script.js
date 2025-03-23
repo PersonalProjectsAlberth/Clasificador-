@@ -81,6 +81,15 @@ function loadPhoto() {
         img.src = savedPhoto;
         img.style.marginTop = "20px";
         img.onload = async () => {
+            // Verificar si el modelo está cargado
+            if (!model) {
+                // Cargar el modelo y los metadatos
+                const modelURL = URL + "model.json";
+                const metadataURL = URL + "metadata.json";
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();                
+            }
+
             // Crear un canvas temporal para procesar la imagen cargada
             const canvas = document.createElement("canvas");
             canvas.width = img.width;
