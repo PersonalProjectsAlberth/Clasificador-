@@ -65,3 +65,23 @@ async function predict(canvas) {
         labelContainer.childNodes[i].innerHTML = classPrediction;
     }
 }
+
+// Función para guardar la foto en Local Storage
+function savePhoto(canvas) {
+    const imageData = canvas.toDataURL("image/png"); // Convierte el canvas a una imagen base64
+    localStorage.setItem("savedPhoto", imageData); // Guarda la imagen en Local Storage
+    alert("Foto guardada en Local Storage");
+}
+
+// Función para cargar la foto guardada desde Local Storage
+function loadPhoto() {
+    const savedPhoto = localStorage.getItem("savedPhoto");
+    if (savedPhoto) {
+        const img = document.createElement("img");
+        img.src = savedPhoto;
+        img.style.marginTop = "20px";
+        document.body.appendChild(img);
+    } else {
+        alert("No hay fotos guardadas");
+    }
+}
